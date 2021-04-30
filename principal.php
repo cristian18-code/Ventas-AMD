@@ -61,7 +61,7 @@
     </div>  
 
  <!-- Opcion de Fonoplus-->        
-    <a href="#">
+    <a href="correo_consultor.php">
 
         <div class="box box2">
 
@@ -77,7 +77,7 @@
 
     </div> 
         
-    <a href="#">
+    <a href="#"  data-pushbar-target="pushbar-menu-consulta">
 
         <div class="box box2">
 
@@ -180,6 +180,47 @@
                 <h4 class="title">Documentos</h4>
 
                 <p><strong><?php echo strtoupper($_SESSION["rolVentas"])?></strong></p>
+
+                <div class="background-hover"></div>
+
+            </div>  
+
+            </a>
+
+</div>
+<button data-pushbar-close><span class="icon-cancel-circle" id="close"></span></button>
+<span class="icon-circle-down"  data-pushbar-target="pushbar-menu-fonoplus"></span>
+</div>
+
+<!-- Opciones desplegables de Consulta -->
+<div data-pushbar-id="pushbar-menu-consulta" data-pushbar-direction="top" class="pusbar-fono-bitacora">
+    <h1> Modulo Consultar </h1>
+    <div class="container-boxes">
+
+            <a href="consultar-ventas.php" target="_top">
+
+                <div class="boxes boxes1">
+
+                    <img src="media/img/ventas.png" alt="usuario-reportar" class="icon" >
+
+                    <h4 class="title"> Ventas</h4>
+
+                    <p><strong>Consultar Ventas</strong></p>
+
+                    <div class="background-hover"></div>
+
+                </div>  
+
+            </a>
+            <a href="#" target="_top" data-swal-template="#my-template">
+
+            <div class="boxes boxes1">
+
+                <img src="media/img/consultar.png" alt="usuario-reportar" class="icon">
+
+                <h4 class="title">Documentos</h4>
+
+                <p><strong>Consultar Documentos</strong></p>
 
                 <div class="background-hover"></div>
 

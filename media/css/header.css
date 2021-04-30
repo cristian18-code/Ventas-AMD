@@ -600,6 +600,11 @@ section div div.alerta{
   float: right;
   margin-top: 10%;
 }
+.datos{
+  position: absolute;
+  right: 45%;
+  margin-top: 8%;
+}
 @media screen and (max-width:1400px){
   #form{
     width: 40%;

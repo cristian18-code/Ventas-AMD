@@ -252,7 +252,7 @@
                                 <option value="" hidden>Selecciona una opcion</option>
                                 <!-- consulta traer datos de la base -->
                         
-                                <?php $estadoSsql = "SELECT id_tipificacion, nombre_tipificacion FROM tipificaciones WHERE grupo_tipificacion = 'Gestionar Ventas' AND grupo_tipificacion2 = 'ventas' ORDER BY nombre_tipificacion ASC";
+                                <?php $estadoSsql = "SELECT id_tipificacion, nombre_tipificacion FROM tipificaciones WHERE grupo_tipificacion = 'tipo venta' AND grupo_tipificacion2 = 'gestionarVentas' ORDER BY nombre_tipificacion ASC";
                                     $estadoQsql = $con->query($estadoSsql);
                                 ?>
                                 <!-- ciclo para mostrar las areas -->

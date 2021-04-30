@@ -11,11 +11,14 @@
                     ventas.nombre_contratante,
                     ventas.documento_contratante,
                     ventas.nombre_contratante,
+                    t1.nombre_tipificacion AS estado,
                     ventas.activacion_modulo
-                    FROM registrar_venta ventas
+                    FROM ((registrar_venta ventas
                     INNER JOIN tipificaciones t
-                    ON ventas.id_Tipificacionciudad_contrato = t.id_tipificacion
-                    -- WHERE  id_TipificaciontipoVentas != '' OR id_TipificaciontipoVentas IS NULL";
+                        ON ventas.id_Tipificacionciudad_contrato = t.id_tipificacion)
+                    LEFT JOIN tipificaciones t1
+                        ON ventas.id_TipificaciontipoVentas = t1.id_tipificacion)
+                    WHERE  id_TipificaciontipoVentas != '11' OR id_TipificaciontipoVentas IS NULL";
  $qsqlDatos = $con->query($ssql);
     // valida si el usuario tiene permisos concedidos
 	$permisoQsql = $con->query("SELECT Supervisor
@@ -39,7 +42,7 @@
     <link rel="stylesheet" href="media/css/tabla_infInvestigar.css">
     <link rel="stylesheet" href="media/css/libs/dataTables.bootstrap5.min.css"> <!-- estilo de la tabla -->
 <!-- Estilos css -->
-    <link rel="shortcut icon" href="media/img/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="media/img/ventas.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Scripts -->
@@ -79,6 +82,7 @@
                     <th>Registro</th>
                     <th>fecha Registro</th>
                     <th>Hora registro</th>
+                    <th>Estado Venta</th>
                     <th>Nombre Contratante</th>
                     <th>Documento Contratante</th>
                     <th>Contrato</th>
@@ -93,6 +97,7 @@
                             <td><?php echo $dato['id_registro']; ?></td>
                             <td><?php echo $dato["fecha_registro"]; ?></td>
                             <td><?php echo $dato["horaRegistro"]; ?></td>
+                            <td><?php echo $dato['estado']?></td>
                             <td><?php echo $dato["nombre_contratante"]; ?></td>
                             <td><?php echo $dato['documento_contratante']?></td>
                             <td><?php echo $dato['contrato']?></td>
@@ -110,6 +115,7 @@
                     <th>Registro</th>
                     <th>fecha Registro</th>
                     <th>Hora registro</th>
+                    <th>Estado Venta</th>
                     <th>Nombre Contratante</th>
                     <th>Documento Contratante</th>
                     <th>Contrato</th>

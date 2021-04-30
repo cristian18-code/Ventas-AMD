@@ -136,7 +136,7 @@
                         <select name="ciudadContrato" id="ciudadContrato" class="form-control">
                             <option value="" hidden>Selecciona una opcion</option>
                             <!-- consulta traer datos de la base -->
-                            <?php $cmdSsql = "SELECT id_tipificacion, nombre_tipificacion FROM tipificaciones WHERE grupo_tipificacion = 'Registrar Venta' AND grupo_tipificacion2 = 'ventas' ORDER BY nombre_tipificacion ASC";
+                            <?php $cmdSsql = "SELECT id_tipificacion, nombre_tipificacion FROM tipificaciones WHERE grupo_tipificacion = 'ciudad' AND grupo_tipificacion2 = 'registrarVentas' ORDER BY nombre_tipificacion ASC";
                                 $cmdQsql = $con -> query($cmdSsql);
                             ?>
                             <!-- ciclo para mostrar las areas -->
