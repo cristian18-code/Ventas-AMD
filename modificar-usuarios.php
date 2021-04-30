@@ -3,8 +3,8 @@
         include('config/conexion.php');
 
         // valida si el usuario tiene permisos concedidos
-        $permisoQsql = $con->query("SELECT crud_usuarios
-                                        FROM permisos WHERE id_usuario = '".$_SESSION['idUsers']."'");
+        $permisoQsql = $con->query("SELECT Administrador
+                                        FROM permisos WHERE id_usuario = '".$_SESSION['idUsersVentas']."'");
 
         if ($filaP = mysqli_fetch_row($permisoQsql)) {
             $permiso = $filaP[0];
@@ -123,7 +123,7 @@
     <link rel="stylesheet" href="media/css/modificar-usuario.css">    
     <link rel="stylesheet" href="media/css/libs/dataTables.bootstrap5.min.css"> <!-- estilo de la tabla -->
 <!-- Estilos css -->
-<link rel="shortcut icon" href="media/img/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="media/img/ventas.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Scripts -->

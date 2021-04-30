@@ -18,7 +18,7 @@ body{
 }
 .circle{
 	width: 100%;
-	background-image: linear-gradient(180deg,rgb(0, 195, 255), rgb(0, 153, 255));
+	background: linear-gradient(90deg, rgba(52,13,103,1) 0%, rgba(103,26,166,1) 54%, rgba(30,100,159,1) 100%);
 	position: fixed;
 	height: 200vh;
 	border-radius: 100%;

@@ -4,8 +4,8 @@ include('config/session.php');
 include('config/conexion.php');
 
 // valida si el usuario tiene permisos concedidos
-$permisoQsql = $con->query("SELECT crud_usuarios
-                                FROM permisos WHERE id_usuario = '".$_SESSION['idUsers']."'");
+$permisoQsql = $con->query("SELECT Administrador
+                                FROM permisos WHERE id_usuario = '".$_SESSION['idUsersVentas']."'");
 
 if ($filaP = mysqli_fetch_row($permisoQsql)) {
     $permiso = $filaP[0];
@@ -28,14 +28,14 @@ if($permiso != 1){
     <link rel="stylesheet" href="media/css/tabla_usuarios.css">    
     <link rel="stylesheet" href="media/css/libs/dataTables.bootstrap5.min.css"> <!-- estilo de la tabla -->
 <!-- Estilos css -->
-<link rel="shortcut icon" href="media/img/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="media/img/ventas.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Scripts -->
     <script src="sistema/js/getTime.js"></script>
     <script src="sistema/js/libs/jquery-3.5.1.min.js"></script>
 <!-- Scripts -->    
-    <title>Listado Usuarios - Bitacora</title>
+    <title>Listado Usuarios - Ventas AMD</title>
 </head>
 <body>
     <header>
@@ -59,7 +59,7 @@ if($permiso != 1){
 
         <table id="usuario" class="table table-striped table-bordered">
 
-            <thead style=" background:rgb(0, 153, 255);">
+            <thead style="background-image: linear-gradient(180deg,rgb(63, 4, 102), rgb(84, 1, 151));">
                  <tr>
                     <th style=" color:white;"> ID</th>
                     <th style=" color:white;"> Nombre </th>
@@ -101,7 +101,7 @@ if($permiso != 1){
                     ?>
             </tbody>
 
-            <tfoot style="background:rgb(0, 153, 255);">
+            <tfoot style="background-image: linear-gradient(180deg,rgb(63, 4, 102), rgb(84, 1, 151));">
             <tr>
                <th> ID</th>
                <th> Nombre </th>

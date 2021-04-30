@@ -18,7 +18,7 @@
 <script>
         Swal.fire({
                 icon: 'warning',
-                title: 'No tienes permisos para ingresar a este modulo <?php echo $_SESSION['nombres'] ?>',
+                title: 'No tienes permisos para ingresar a este modulo <?php echo $_SESSION['nombreVentas'] ?>',
                 html: '<a href="principal.php"> <button class="btn btn-primary"> Aceptar </button></a>',
 		showConfirmButton: false
               });

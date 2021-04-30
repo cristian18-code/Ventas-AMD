@@ -1,14 +1,14 @@
 <?php
 	include('sistema/logica/login.php'); // Incluye archivo del login
 	
-	if(isset($_SESSION['activas'])){ // Valida si ya hay una sesion iniciada
+	if(isset($_SESSION['activaVentas'])){ // Valida si ya hay una sesion iniciada
 		header("location: principal.php");
 	}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Ingreso Gestion</title>
+	<title>Ingreso Ventas AMD</title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="media/css/login.css">
 	<script src="sistema/js/libs/kitawesome.js"></script>
@@ -21,12 +21,12 @@
 	<div class="container">
 	<div class="circle"></div>
 		<div class="img">
-			<img src="media/img/bg.svg">
+			<img src="media/img/undraw_Data_trends_re_2cdy.svg">
 		</div>
 		<div class="login-content">
 			<form method="POST" action="#">
 				<img src="media/img/avatar.svg">
-				<h2 class="title">Bienvenidos</h2>
+				<h2 class="title">Ventas</h2>
            		<div class="input-div one">
            		   <div class="i">
            		   		<i class="fas fa-user"></i>

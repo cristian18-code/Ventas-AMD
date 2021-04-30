@@ -10,16 +10,16 @@ $user_check=$_SESSION['usernames'];
 $ses_sql=mysqli_query($con, "SELECT id_usuario, nombre, rol, username FROM usuarios WHERE username='$user_check'");
 $row = mysqli_fetch_assoc($ses_sql);
 
-        $_SESSION['idUsers'] = $row['id_usuario'];
-        $_SESSION['nombres'] = $row['nombre'];
-        $_SESSION['roles'] = $row['rol'];
+        $_SESSION['idUsersVentas'] = $row['id_usuario'];
+        $_SESSION['nombreVentas'] = $row['nombre'];
+        $_SESSION['rolVentas'] = $row['rol'];
         $login_session = $row['id_usuario'];
         
-        $nombreRol = $con-> query("SELECT nombre_rol FROM roles WHERE id_rol = '".$_SESSION['roles']."'");
+        $nombreRol = $con-> query("SELECT nombre_rol FROM roles WHERE id_rol = '".$_SESSION['rolVentas']."'");
 
         if ($fila = mysqli_fetch_row($nombreRol)) {
                 $rol = $fila[0];
-                $_SESSION['roles'] = $rol; 
+                $_SESSION['rolVentas'] = $rol; 
         }
                 
 if(!isset($login_session)){

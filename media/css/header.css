@@ -134,7 +134,7 @@ a span.icon-gravatar{
   margin-left: 30px;
 }
 nav ul, nav ol{
-background:rgb(0, 153, 255);
+background:rgb(120, 4, 197);
 list-style:none;
 z-index: 50;
 }
@@ -160,17 +160,18 @@ font-family: 'Calibri', sans-serif !important;
 }
 
 ul a:hover{
-background: rgba(3, 65, 182, 1);
+background: rgb(181, 71, 245);
 color: white;
 text-decoration: none;
 }
 nav li:hover > ul {
 display:block;
 
+
 }
 
 nav li ul{
-background-image: linear-gradient(180deg,rgb(0, 195, 255), rgb(0, 153, 255));
+background-image: linear-gradient(180deg,rgb(153, 0, 255), rgb(140, 0, 255));
 display: none;
 position:absolute;
 min-width:140px;
@@ -197,7 +198,7 @@ font-size:13pt;
 }
 
 nav li ul a:hover{
-background: rgba(3, 65, 182, 1);
+  background: rgb(181, 71, 245);
 }
 
 header, nav ul li {
