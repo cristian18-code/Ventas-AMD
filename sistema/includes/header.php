@@ -5,7 +5,7 @@
 		<div class="optionsBar">
 			<span class="user" style="font-size:15pt;"><?php echo $_SESSION['rolVentas']?></span>
 			<span>|</span>
-			<span class="user" style="font-size:15pt;"><?php echo $_SESSION['usernames'] ?></span>
+			<span class="user" style="font-size:15pt;"><?php echo $_SESSION['nombreVentas'] ?></span>
 			<img class="photouser" src="media/img/user.png">
 			<span>|</span>
 			<h4><a href="#" id="boton1"> Cerrar sesión</a></h4>

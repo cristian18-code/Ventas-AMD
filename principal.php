@@ -39,7 +39,7 @@
 <section>
 
 
-<!-- Opcion de Citas-->
+<!-- Opcion de Registrar Ventas-->
 <div class="container-all" id="menu">
 
     <div class="container-box">
@@ -60,7 +60,7 @@
         
     </div>  
 
- <!-- Opcion de Fonoplus-->        
+ <!-- Opcion de Registrar Correos-->        
     <a href="correo_consultor.php">
 
         <div class="box box2">
@@ -76,7 +76,7 @@
     </a> 
 
     </div> 
-        
+ <!-- Opcion de Registrar Consulta-->       
     <a href="#"  data-pushbar-target="pushbar-menu-consulta">
 
         <div class="box box2">
@@ -93,7 +93,7 @@
 
     </div> 
 
-<!-- Opcion de Descargar Reportes en General-->
+<!-- Opcion de Supervisor / Backoffice-->
     <?php if ($_SESSION['rolVentas'] == 'Administrador' || $_SESSION['rolVentas'] == 'Supersivor')  { ?>
     <a href="#" data-pushbar-target="pushbar-menu-supervisor">
 
@@ -171,13 +171,13 @@
                 </div>  
 
             </a>
-            <a href="#" target="_top" data-swal-template="#my-template">
+            <a href="tabla_correos.php" target="_top" data-swal-template="#my-template">
 
             <div class="boxes boxes1">
 
                 <img src="media/img/consultar.png" alt="usuario-reportar" class="icon">
 
-                <h4 class="title">Documentos</h4>
+                <h4 class="title">Envio correo</h4>
 
                 <p><strong><?php echo strtoupper($_SESSION["rolVentas"])?></strong></p>
 
@@ -212,7 +212,7 @@
                 </div>  
 
             </a>
-            <a href="#" target="_top" data-swal-template="#my-template">
+            <a href="consultar-correo.php" target="_top">
 
             <div class="boxes boxes1">
 

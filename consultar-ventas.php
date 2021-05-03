@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="media/css/libs/pushbar.css">
     <link rel="stylesheet" href="media/css/tabla_usuarios.css"> 
 	<link rel="stylesheet" href="media/css/libs/animate.css">    
-    <link rel="stylesheet" href="media/css/libs/dataTables.bootstrap5.min.css"> <!-- estilo de la tabla -->
+
 <!-- Estilos css -->
 <link rel="shortcut icon" href="media/img/ventas.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
@@ -57,7 +57,7 @@ if(isset($_POST['consultar'])){
          echo "
 
          <table id='registros' class='table table-striped table-bordered animate__animated animate__fadeIn' style='width:100%' >
-         <thead style='background:rgb(0, 153, 255);'>
+         <thead style='background-image: linear-gradient(180deg,rgb(63, 4, 102), rgb(84, 1, 151));'>
                 <tr>
                     <th style='color:#fff;'> Fecha Registro</th>
                     <th style='color:#fff;'> Hora Registro</th>
@@ -120,27 +120,108 @@ while($registro = mysqli_fetch_array($consulta)){
             <td>".$registro['user_crea']."</td>
             <td>".$registro['user_cierre']."</td>
             <td> <button class='btn btn-success'data-pushbar-target='pushbar-menu-venta".$registro['id_registro']."'> <span class='icon-eye'></span> Ver</button></td>
-
+          
       </tr>
       <div data-pushbar-id='pushbar-menu-venta".$registro['id_registro']."' data-pushbar-direction='bottom' class='pusbar-fono-consultar1'>
-      <div class='respuestas'>
-      <h1> Asesor de Ventas </h1> <h1> Consecutivo Ventas</h1> <h1> Observaciones Backoffice </h1>
-      </div>
-      
-      <div class='respuestas'>
-      <textarea class='form-control' style='resize:none; text-align:center; margin:auto;' readonly>".$registro['observaciones']."</textarea>
-      <textarea class='form-control' style='resize:none; text-align:center; margin:auto;' readonly>".$registro['consecutivoVentas']."</textarea>
-      <textarea class='form-control' style='resize:none; text-align:center; margin:auto;' readonly>".$registro['observacionesSuper']."</textarea>
-      <div>
+            <div class='adicional'></div>
+            <div class='adicional'></div>
+            <div class='adicional'></div>
+            <section style='width:70%;'>
+            
+            <div id='formulario' style='margin-top:5vh;'>    
+                <h1>Datos Beneficiario y Observaciones <b> - Ventas AMD </b> </h1>
+                <hr>
+                    <form method='post' name='form_envioCorreo_consultor' id='form_envioCorreo_consultor'>
+                        <div class='row' style='justify-content: center;'>
+                                <div class='form-group row col-6' id='cont-fecha_activacionModulo'>
+                                    <label for='fecha_activacionModulo' class='col-sm-5 col-form-label'>T° Doc Beneficiario</label>
+                                    <div class='col-sm-6'>
+                                        <input type='text' name='fecha_activacionModulo' id='fecha_activacionModulo' class='form-control' value=".$registro['tipoIdentificacion_beneficiario']." readonly>
+                                    </div>
+                                </div>
+                                <div class='form-group row col-5' id='cont-fecha_activacionModulo'>
+                                    <label for='fecha_activacionModulo' class='col-sm-6 col-form-label'>N° Doc Beneficiario</label>
+                                    <div class='col-sm-6'>
+                                        <input type='text' name='fecha_activacionModulo' id='fecha_activacionModulo' class='form-control' value=".$registro['documento_beneficiario']." readonly>
+                                    </div>
+                                </div>
+                                
+                        </div>
+                        <div class='row' style='justify-content: center;'>
+                            <div class='form-group row col-6' id='cont-fecha_activacionModulo'>
+                                <label for='fecha_activacionModulo' class='col-sm-5 col-form-label'>Nombre Beneficiario</label>
+                                <div class='col-sm-6'>
+                                    <input type='text' name='fecha_activacionModulo' id='fecha_activacionModulo' class='form-control' value=".$registro['nombre_beneficiario']." readonly>
+                                </div>
+                            </div>
+                            <div class='form-group row col-5' id='cont-fecha_activacionModulo'>
+                                <label for='fecha_activacionModulo' class='col-sm-6 col-form-label'>Celular Beneficiario</label>
+                                <div class='col-sm-6'>
+                                    <input type='text' name='fecha_activacionModulo' id='fecha_activacionModulo' class='form-control' value=".$registro['celular_beneficiario']." readonly>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class='row' style='justify-content: center;'>
+                            <div class='form-group row col-6' id='cont-fecha_activacionModulo'>
+                                <label for='fecha_activacionModulo' class='col-sm-5 col-form-label'>Ciudad Contrato</label>
+                                <div class='col-sm-6'>
+                                    <input type='text' name='fecha_activacionModulo' id='fecha_activacionModulo' class='form-control' value=".$registro['ciudadContrato']." readonly>
+                                </div>
+                            </div>
+                            <div class='form-group row col-5' id='cont-fecha_activacionModulo'>
+                                <label for='fecha_activacionModulo' class='col-sm-6 col-form-label'>Fecha Activación M</label>
+                                <div class='col-sm-6'>
+                                    <input type='text' name='fecha_activacionModulo' id='fecha_activacionModulo' class='form-control' value=".$registro['documento_beneficiario']." readonly>
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class='row' style='justify-content: center;'>
+                            <div class='form-group row col-6' id='cont-fecha_activacionModulo'>
+                                <label for='fecha_activacionModulo' class='col-sm-5 col-form-label'>Consecutivo Ventas</label>
+                                <div class='col-sm-6'>
+                                    <input type='text' name='fecha_activacionModulo' id='fecha_activacionModulo' class='form-control' value=".$registro['consecutivoVentas']." readonly disabled>
+                                </div>
+                            </div>
+                            <div class='form-group row col-5' id='cont-fecha_activacionModulo'>
+                                <label for='fecha_activacionModulo' class='col-sm-6 col-form-label'>ID llamada</label>
+                                <div class='col-sm-6'>
+                                    <input type='text' name='fecha_activacionModulo' id='fecha_activacionModulo' class='form-control' value=".$registro['id_llamada']." readonly disabled>
+                                </div>
+                            </div>
+                    
+                        </div>
+                        <div class='row' style='justify-content: center;'>
+                            <label for='detalle' class='col-sm-3 col-form-label'>Observaciones Asesor</label>
+                            <div class='col-sm-8'>
+                                <textarea class='form-control' style='resize:none; text-align:center; margin:auto;' readonly>".$registro['observaciones']."</textarea>
+                            </div>
+                        </div>
+                        <br>
+                        <div class='row' style='justify-content: center;'>
+                            <label for='detalle' class='col-sm-3 col-form-label'>Observaciones Supervisor</label>
+                                <div class='col-sm-8'>
+                                    <textarea class='form-control' style='resize:none; text-align:center; margin:auto;' readonly>".$registro['observacionesSuper']."</textarea>
+                                </div>
+                        </div>
 
-      <button data-pushbar-close><span class='icon-cancel-circle' id='close'></span></button>
+                        
+                </div>    
+
+            </section>
+            
+            
+
+      <button data-pushbar-close><span style='background:none;' class='icon-cancel-circle' id='close'></span></button>
       
       </div>
+
          
             ";
       };
       echo "
-      <tfoot style='background:rgb(0, 153, 255);'>
+      <tfoot style='background-image: linear-gradient(180deg,rgb(63, 4, 102), rgb(84, 1, 151));'>
             <tr>
                 <th> Fecha Registro</th>
                 <th> Hora Registro</th>

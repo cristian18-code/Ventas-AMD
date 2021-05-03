@@ -22,11 +22,11 @@
       <ul>
        
               <li><a href="venta_consultor.php"> <span class="icon-user-plus"> </span> Registrar Ventas </a></li>
-              <li><a href="#"> <span class="icon-user-plus"> </span> Envio de Correo</a></li>
+              <li><a href="correo_consultor.php"> <span class="icon-user-plus"> </span> Envio de Correo</a></li>
               <li><a href="#"> <span class="icon-clipboard"> </span> Consultar <span style="font-size: 14px;" class="icon-circle-right"></span> </a>
                 <ul>
-                  <li><a href="#"> <span class="icon-user-plus"> </span> Consultar Asesor</a></li>
-                  <li><a href="#"> <span class="icon-user-plus"> </span> Consultar Envio de Correo</a></li>
+                  <li><a href="consultar-ventas.php"> <span class="icon-user-plus"> </span> Consultar Asesor</a></li>
+                  <li><a href="consultar-correo.php"> <span class="icon-user-plus"> </span> Consultar Envio de Correo</a></li>
                 </ul>
               </li>
         
@@ -36,12 +36,12 @@
     <li class="principal"> <a href="#" > <span class="icon-user-tie"></span> Supersivor Ventas </a>
       <ul>
       
-              <li><a href="#"> <span class="icon-user-plus"> </span> Gestión Ventas </a></li>
-              <li><a href="#"> <span class="icon-user-plus"> </span> Gestión Correo</a></li>
+              <li><a href="tabla_ventas.php"> <span class="icon-user-plus"> </span> Gestión Ventas </a></li>
+              <li><a href="tabla_correos.php"> <span class="icon-user-plus"> </span> Gestión Correo</a></li>
               <li><a href="#"> <span class="icon-clipboard"> </span> Consultar <span style="font-size: 14px;" class="icon-circle-right"></span> </a>
                 <ul>
-                  <li><a href="#"> <span class="icon-user-plus"> </span> Consultar Asesor</a></li>
-                  <li><a href="#"> <span class="icon-user-plus"> </span> Consultar Envio de Correo</a></li>
+                  <li><a href="consultar-ventas.php"> <span class="icon-user-plus"> </span> Consultar Asesor</a></li>
+                  <li><a href="consultar-correo.php"> <span class="icon-user-plus"> </span> Consultar Envio de Correo</a></li>
                 </ul>
               </li>
       </ul>
@@ -56,7 +56,7 @@
                 
 
                   <form method="POST" action="sistema/logica/reporteConsolidadoCompleto.php" id="form" name="form">
-                    <h3> Reportes Gestión Contact Center</h3>
+                    <h3> Reportes Ventas AMD</h3>
                       <label> Fecha Inicial </label>
                       <input type="date" name="fecha1" class="form-control">
                       <br>
@@ -76,8 +76,8 @@
 
                       <ul id="box-search">
                       <!-- Opciones de Reportes-->
-                      <li><a> <button name="generar_reportes_preparaciones"  class="btn btn-primary"  value="Descargar Reporte Preparaciones" onclick='alerta();'><span class="icon-download2"></span> Reporte Preparaciones</button></a></li>
-                      <li><a><button name="generar_reportes_fonoplus"  class="btn btn-primary "  value="Descargar Reporte Inf Investigar Fono" onclick='alerta();'><span class="icon-download2"></span> Reporte Inf Investigar Fono</button></a></li>
+                      <li><a> <button name="generar_reportes_ventas"  class="btn btn-primary"  value="Descargar Reporte Ventas" onclick='alerta();'><span class="icon-download2"></span> Reporte Ventas</button></a></li>
+                      <li><a> <button name="generar_reportes_correos"  class="btn btn-primary"  value="Descargar Reporte Correos" onclick='alerta();'><span class="icon-download2"></span> Reporte Correo</button></a></li> 
                      
                       </ul>
 

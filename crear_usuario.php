@@ -26,7 +26,7 @@ if($permiso != 1){
 
             $nombre = $_POST['nombre'];
             $usuario = strtolower($_POST['usuario']);
-            $clave = MD5($_POST['contrasena']);
+            $clave = md5($_POST['contrasena']);
             $rol = $_POST['rol'];
 
             $validarQsql = $con->query("SELECT * FROM usuarios WHERE username = '$usuario' ");

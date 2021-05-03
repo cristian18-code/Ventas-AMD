@@ -6,58 +6,53 @@ mb_internal_encoding("UTF-8"); /*Cotejamiento interno para consultas SQL */
 $fecha1=$_POST['fecha1'];
 $fecha2=$_POST['fecha2'];
 
-if(isset($_POST['generar_reportes_preparaciones']))
+if(isset($_POST['generar_reportes_ventas']))
 {
     // NOMBRE DEL ARCHIVO Y CHARSET
     
 	header('Content-Type:text/csv; charset=UTF-8');
-	header('Content-Disposition: attachment; filename="Reporte_Consolidado_Preparaciones.csv"');
+	header('Content-Disposition: attachment; filename="Reporte_Consolidado_Ventas.csv"');
 
 	// SALIDA DEL ARCHIVO
 	$salida=fopen('php://output', 'b');
 	// ENCABEZADOS
-	fputcsv($salida, array('ID Registro', 'Tipificacion Estado', 'Fecha Registro', 'Hora Creacion Registro', 'Documento', ' Contrato', 
-						   'Nombre Usuario','Tipificacion Cmd', 'Examenes', 'Correo', 'Celular','Creador Registro', 'Fecha de Envio','Hora de Envio','Tipificacion Solicitud',
-                           'Observaciones', 'Tipificacion Tipo', 'Tipificacion Tipo Paciente',  'Backoffice', 'Tipificacion Cmd Backoffice'));
-	// QUERY PARA CREAR EL REPORTE PREPARACIONES
-	$traerDatos=$con->query("SELECT     preparaciones.id_registro,
-                                        t.nombre_tipificacion AS estado,
-                                        DATE_FORMAT(preparaciones.fecha_registro, '%d/%m/%Y') AS fecha_registro,
-                                        preparaciones.hora_registro,
-                                        preparaciones.documento,
-                                        preparaciones.contrato,
-                                        preparaciones.nombres_usuario,
-                                        preparaciones.examen,
-                                        preparaciones.correo,
-                                        preparaciones.celular,
-                                        preparaciones.observaciones,
-                                        preparaciones.fecha_envio,
-                                        preparaciones.hora_envio,
-                                        t1.nombre_tipificacion AS cmd,
-                                        t2.nombre_tipificacion AS tipo,
-                                        t3.nombre_tipificacion AS solicitud,
-                                        t4.nombre_tipificacion AS paciente,
-                                        t5.nombre_tipificacion AS cmdBackoffice,
+	fputcsv($salida, array('ID Registro','Fecha Registro', 'Hora Creacion Registro', ' Contrato',  'Nombre Contratante', 'Documento Contratante',
+						   'Tipo de Identificacion','Documento Beneficiario', 'Nombre Beneficiario', 'Celular Beneficiario', 'Activacion Modulo',
+                           'Observaciones','Ciudad del Contrato','Consecutivo Ventas','ID Llamada', 'Tipo Venta', 'Asesor de Ventas','Supervisor',  
+                           'Fecha Cierre', 'Hora Cierre'));
+	// QUERY PARA CREAR EL REPORTE VENTAS
+	$traerDatos=$con->query("SELECT     ventas.id_registro,
+                                        t.nombre_tipificacion AS ciudadContrato,
+                                        DATE_FORMAT(ventas.fechaRegistro, '%d/%m/%Y') AS fecha_registro,
+                                        ventas.horaRegistro,
+                                        ventas.contrato,
+                                        ventas.nombre_contratante,
+                                        ventas.documento_contratante,
+                                        ventas.nombre_contratante,
+                                        ventas.tipoIdentificacion_beneficiario,
+                                        ventas.documento_beneficiario,
+                                        ventas.nombre_beneficiario,
+                                        ventas.celular_beneficiario,
+                                        ventas.activacion_modulo,
+                                        ventas.observaciones,
+                                        ventas.consecutivoVentas,
+                                        ventas.id_llamada,
+                                        ventas.observacionesSuper,
+                                        t1.nombre_tipificacion AS tipoVenta,
                                         u.username AS user_crea,
-                                        u1.username AS user_cierre
-                                        FROM ((((((( envio_preparaciones preparaciones
-                                        LEFT JOIN tipificaciones t 
-                                            ON preparaciones.id_tipificacionEstado = t.id_tipificacion)
-                                        INNER JOIN tipificaciones t1 
-                                            ON preparaciones.id_tipificacionCmd = t1.id_tipificacion)
-                                        INNER JOIN tipificaciones t2 
-                                            ON preparaciones.id_tipificacionTipo = t2.id_tipificacion)
-                                        INNER JOIN tipificaciones t3
-                                            ON preparaciones.id_tipificacionSolicitud = t3.id_tipificacion)
-                                        INNER JOIN tipificaciones t4
-                                            ON preparaciones.id_tipificacionTipo_paciente = t4.id_tipificacion)
-                                        LEFT JOIN tipificaciones t5
-                                            ON preparaciones.id_tipificacionCmdBack = t5.id_tipificacion)
+                                        u1.username AS user_cierre,
+                                        ventas.fechaCierre,
+                                        ventas.horaCierre
+                                        FROM ((((registrar_venta ventas
                                         INNER JOIN usuarios u
-                                            ON preparaciones.id_userCrea = u.id_usuario)
+                                            ON ventas.id_userCrea = u.id_usuario)
                                         LEFT JOIN usuarios u1
-                                            ON preparaciones.id_userCierre = u1.id_usuario
-                                        where fecha_registro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
+                                            ON ventas.id_userCierre = u1.id_usuario)
+                                        LEFT JOIN tipificaciones t
+                                            ON ventas.id_Tipificacionciudad_contrato = t.id_tipificacion)
+                                        LEFT JOIN tipificaciones t1
+                                            ON ventas.id_TipificaciontipoVentas = t1.id_tipificacion)
+                                        where fechaRegistro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
 
 	foreach ($traerDatos as $filaR) {
 				
@@ -67,546 +62,88 @@ if(isset($_POST['generar_reportes_preparaciones']))
 	
 		
 		fputcsv($salida, array($filaR['id_registro'], 
-								$filaR['estado'],
 								$filaR['fecha_registro'],
-								$filaR['hora_registro'],
-								$filaR['documento'],
-								$filaR['contrato'],
-								$filaR['nombres_usuario'],
-                                $filaR['cmd'],
-								$filaR['examen'],
-								$filaR['correo'],
-								$filaR['celular'],
-                                $filaR['user_crea'],
-                                $filaR['fecha_envio'],
-                                $filaR['hora_envio'],
-                                $filaR['solicitud'],
+								$filaR['horaRegistro'],
+                                $filaR['contrato'],
+								$filaR['nombre_contratante'],
+								$filaR['documento_contratante'],
+								$filaR['tipoIdentificacion_beneficiario'],
+								$filaR['documento_beneficiario'],
+								$filaR['nombre_beneficiario'],
+                                $filaR['celular_beneficiario'],
+                                $filaR['activacion_modulo'],
                                 $filaR['observaciones'],
-                                $filaR['tipo'],
-                                $filaR['paciente'],
+                                $filaR['ciudadContrato'],
+                                $filaR['consecutivoVentas'],
+                                $filaR['id_llamada'],
+                                $filaR['tipoVenta'],
+                                $filaR['user_crea'],
                                 $filaR['user_cierre'],
-								$filaR['cmdBackoffice']));
+                                $filaR['fechaCierre'],
+								$filaR['horaCierre']));
     }
 }
 
-if(isset($_POST['generar_reportes_fonoplus']))
+if(isset($_POST['generar_reportes_correos']))
 {
     // NOMBRE DEL ARCHIVO Y CHARSET
     
 	header('Content-Type:text/csv; charset=UTF-8');
-	header('Content-Disposition: attachment; filename="Reporte_informacionAInvestigarFono.csv"');
+	header('Content-Disposition: attachment; filename="Reporte_Consolidado_Correos.csv"');
 
 	// SALIDA DEL ARCHIVO
 	$salida=fopen('php://output', 'b');
 	// ENCABEZADOS
-	fputcsv($salida, array('ID Registro', 'Estado', 'Fecha Registro', 'Hora Registro', 'Documento', ' Contrato', 
-						   'Nombre Usuario', 'Detalle Servicio', 'Email', 'Causal', 'Persona Preguntar', 'Telefono','Celular', 'Usuario Que Crea', 
-						   'Ciudad', 'Respuesta Cierre','Observaciones', 'Backoffice', 'Fecha Cierre', 'Hora Cierre'));
-	// QUERY PARA CREAR EL REPORTE INFORMACIÓN INVESTIGAR
-	$traerDatos=$con->query("SELECT     tFono.id_registro,
-                                        t.nombre_tipificacion AS estado,
-                                        DATE_FORMAT(tFono.fechaRegistro, '%d/%m/%Y') AS fecha_registro,
-                                        tFono.horaRegistro,
-                                        tFono.documento,
-                                        tFono.contrato,
-                                        tFono.nombresUsuario,
-                                        tFono.detalle_servicio,
-                                        tFono.email,
-                                        t1.nombre_tipificacion AS causal,
-                                        tFono.persona_preguntar,
-                                        tFono.telefono,
-                                        tFono.celular,
-                                        u1.username AS userCrea,
-                                        tFono.ciudad,
-                                        tFono.respuestaCierre,
-                                        tFono.Observaciones,
-                                        u.username AS user_cierre,
-                                        tFono.fechaCierre,
-                                        tFono.horaCierre
-                                        FROM ((( inf_investigar_fono tFono
-                                        INNER JOIN tipificaciones t 
-                                            ON tFono.id_tipificacionEstado = t.id_tipificacion)
-                                        INNER JOIN tipificaciones t1 
-                                            ON tFono.id_tipificacionCausal = t1.id_tipificacion)
-                                        INNER JOIN usuarios u1
-                                            ON tFono.id_usercrea = u1.id_usuario)
-                                        LEFT JOIN usuarios u
-                                            ON tFono.id_userCierre = u.id_usuario
-                                        where tFono.fechaRegistro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
-
-	foreach ($traerDatos as $filaR) {
-				
-		$cadena = $filaR['Observaciones'];
-
-		$filaR['Observaciones'] = preg_replace("[\n|\r|\n\r]", "", $cadena);
-        $filaR['respuestaCierre'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['respuestaCierre']);
-        $filaR['detalle_servicio'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['detalle_servicio']);
-	
-		
-		fputcsv($salida, array($filaR['id_registro'], 
-								$filaR['estado'],
-								$filaR['fecha_registro'],
-								$filaR['horaRegistro'],
-								$filaR['documento'],
-								$filaR['contrato'],
-								$filaR['nombresUsuario'],
-								$filaR['detalle_servicio'],
-								$filaR['email'],
-								$filaR['causal'],
-								$filaR['persona_preguntar'],
-								$filaR['telefono'],
-								$filaR['celular'],
-                                $filaR['userCrea'],
-                                $filaR['ciudad'],
-                                $filaR['respuestaCierre'],
-                                $filaR['Observaciones'],
-                                $filaR['user_cierre'],
-                                $filaR['fechaCierre'],
-								$filaR['horaCierre']));
-							
-    }
-
-    
-}
-if(isset($_POST['generar_reportes_documentos']))
-    {
-    // NOMBRE DEL ARCHIVO Y CHARSET
-    
-	header('Content-Type:text/csv; charset=UTF-8');
-	header('Content-Disposition: attachment; filename="Reporte_Consolidado_Documentos.csv"');
-
-	// SALIDA DEL ARCHIVO
-	$salida=fopen('php://output', 'b');
-	// ENCABEZADOS
-	fputcsv($salida, array('ID Registro', 'Estado', 'Fecha Registro', 'Hora Registro', 'Documento', ' Contrato', 
-						    'Servicio Solicitado', 'Correo', 'Ciudad', 'Observaciones', 'Observaciones Backoffice','Consultor', 'Backoffice', 
-						   'Fecha Cierre', 'Hora Cierre'));
-	// QUERY PARA CREAR EL REPORTE ENVIO DE DOCUMENTOS
-	$traerDatos=$con->query("SELECT     tDoc.id_registro,
-                                        t.nombre_tipificacion AS estado,
-                                        DATE_FORMAT(tDoc.fechaRegistro, '%d/%m/%Y') AS fecha_registro,
-                                        tDoc.horaRegistro,
-                                        tDoc.documento,
-                                        tDoc.contrato,
-                                        tDoc.correo,
-                                        tDoc.ciudad,
-                                        t1.nombre_tipificacion AS Servicio_Solicitado,
-                                        u1.username AS userCrea,
-                                        tDoc.observacionesBack,
-                                        tDoc.observaciones,
-                                        u.username AS user_cierre,
-                                        tDoc.fechaCierre,
-                                        tDoc.horaCierre
-                                        FROM ((( envio_documentos tDoc
-                                        LEFT JOIN tipificaciones t 
-                                            ON tDoc.id_tipificacionEstado = t.id_tipificacion)
-                                        LEFT JOIN tipificaciones t1 
-                                            ON tDoc.id_tipificacionServicioSo = t1.id_tipificacion)
-                                        LEFT JOIN usuarios u1
-                                            ON tDoc.id_usercrea = u1.id_usuario)
-                                        LEFT JOIN usuarios u
-                                            ON tDoc.id_userCierre = u.id_usuario
-                                        where tDoc.fechaRegistro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
-
-	foreach ($traerDatos as $filaR) {
-				
-		$cadena = $filaR['observacionesBack'];
-
-		$filaR['observacionesBack'] = preg_replace("[\n|\r|\n\r]", "", $cadena);
-        $filaR['observaciones'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['observaciones']);
-	
-		
-		fputcsv($salida, array($filaR['id_registro'], 
-								$filaR['estado'],
-								$filaR['fecha_registro'],
-								$filaR['horaRegistro'],
-								$filaR['documento'],
-								$filaR['contrato'],
-                                $filaR['Servicio_Solicitado'],
-                                $filaR['correo'],
-                                $filaR['ciudad'],
-                                $filaR['observaciones'],
-                                $filaR['observacionesBack'],
-                                $filaR['userCrea'],
-                                $filaR['user_cierre'],
-                                $filaR['fechaCierre'],
-								$filaR['horaCierre']));
-    }
-							
-    }
-
-    if(isset($_POST['generar_reportes_mantenimientoPos']))
-    {
-    // NOMBRE DEL ARCHIVO Y CHARSET
-    
-	header('Content-Type:text/csv; charset=UTF-8');
-	header('Content-Disposition: attachment; filename="Reporte_Consolidado_MantenimientoPos.csv"');
-
-	// SALIDA DEL ARCHIVO
-	$salida=fopen('php://output', 'b');
-	// ENCABEZADOS
-	fputcsv($salida, array('ID Registro', 'Fecha Registro', 'Hora Registro', 'Documento', ' Contrato', 
-						    'Telefono', 'Correo', 'Nombre Usuario', 'Ciudad', 'Asesor Mantenimiento', 'Observaciones', 
-                            'Enviado A', 'Estado', 'Consultor', 'Backoffice', 'Fecha Cierre', 'Hora Cierre'));
-	// QUERY PARA CREAR EL REPORTE DE MANTENIMIENTO POSVENTA
-	$traerDatos=$con->query("SELECT     tManP.id_registro,
-                                        t.nombre_tipificacion AS estado,
-                                        DATE_FORMAT(tManP.fechaRegistro, '%d/%m/%Y') AS fecha_registro,
-                                        tManP.horaRegistro,
-                                        tManP.documento,
-                                        tManP.contrato,
-                                        tManP.correo,
-                                        tManP.telefono,
-                                        t1.nombre_tipificacion AS envio,
-                                        u1.username AS userCrea,
-                                        tManP.nombres_usuario,
-                                        tManP.observaciones,
-                                        tManP.ciudad,
-                                        tManP.asesor_mantenimiento,
-                                        u.username AS user_cierre,
-                                        tManP.fecha_Envio,
-                                        tManP.hora_Envio
-                                        FROM ((( mantenimiento_posventa tManP
-                                        LEFT JOIN tipificaciones t 
-                                            ON tManP.id_tipificacionEstado = t.id_tipificacion)
-                                        LEFT JOIN tipificaciones t1 
-                                            ON tManP.id_tipificacionenviarA = t1.id_tipificacion)
-                                        LEFT JOIN usuarios u1
-                                            ON tManP.id_usercrea = u1.id_usuario)
-                                        LEFT JOIN usuarios u
-                                            ON tManP.id_userCierre = u.id_usuario
-                                        where tManP.fechaRegistro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
-
-	foreach ($traerDatos as $filaR) {
-				
-
-        $filaR['observaciones'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['observaciones']);
-	
-		
-		fputcsv($salida, array($filaR['id_registro'], 
-								$filaR['fecha_registro'],
-								$filaR['horaRegistro'],
-								$filaR['documento'],
-								$filaR['contrato'],
-                                $filaR['telefono'],
-                                $filaR['correo'],
-                                $filaR['nombres_usuario'],
-                                $filaR['ciudad'],
-                                $filaR['asesor_mantenimiento'],
-                                $filaR['observaciones'],
-                                $filaR['envio'],
-                                $filaR['estado'],
-                                $filaR['userCrea'],
-                                $filaR['user_cierre'],
-                                $filaR['fecha_Envio'],
-								$filaR['hora_Envio']));
-    }
-							
-    }
-
-    if(isset($_POST['generar_reportes_Inf_Investigar_Citas']))
-    {
-    // NOMBRE DEL ARCHIVO Y CHARSET
-    
-	header('Content-Type:text/csv; charset=UTF-8');
-	header('Content-Disposition: attachment; filename="Reporte_informacionInvestigar_Citas.csv"');
-
-	// SALIDA DEL ARCHIVO
-	$salida=fopen('php://output', 'b');
-	// ENCABEZADOS
-	fputcsv($salida, array('ID Registro','Estado', 'Fecha Registro', 'Hora Registro', 'Documento', ' Contrato', 'Nombres Usuario',
-                            'Centro Medico','Servicio', 'Centro de Costo', 'Servicio Solicitado','Email', 'Tipo de Solicitud', 'Persona A preguntar',  
-                            'Telefono Fijo', 'Celular', 'Ciudad', 'Agente Registra', 'Backoffice', 'Respuesta Backoffice', 'Observaciones Gestion', 'Tipo de Usuario', 
-                            'Ordenes/Resultados/Pendientes', 'Fecha Servicio', 'Nombre Profesional','Fecha Cierre', 'Hora Cierre'));
-	// QUERY PARA CREAR EL REPORTE INFORMACIÓN INVESTIGAR CITAS
-	$traerDatos=$con->query("SELECT     tCitas.id_registro,
-                                        t.nombre_tipificacion AS estado,
-                                        DATE_FORMAT(tCitas.fecha_registro, '%d/%m/%Y') AS fecha_registro,
-                                        tCitas.hora_registro,
-                                        t1.nombre_tipificacion AS tipo_solicitud,
-                                        t2.nombre_tipificacion AS tipo_usuario,
-                                        tCitas.documento,
-                                        tCitas.contrato,
-                                        tCitas.nombres_usuario,
-                                        tCitas.correo,
-                                        tCitas.nomPersona_preguntar,
-                                        tCitas.telefono,
-                                        tCitas.celular,
-                                        tCitas.ciudad,
-                                        t3.nombre_tipificacion AS centro_medico,
-                                        tCitas.tipificacionOrdResPed,
-                                        t4.nombre_tipificacion AS centroMedico_back,
-                                        tCitas.id_tipificacionServiciosCom,
-                                        t6.nombre_tipificacion AS centro_costo,
-                                        tCitas.Nombre_Profesional,
-                                        tCitas.FechaServicio,
-                                        tCitas.ServicioSolicitado,
-                                        tCitas.respuesta,
-                                        tCitas.gestion_llamada,
+	fputcsv($salida, array('ID Registro','Fecha Registro', 'Hora Creacion Registro', ' Contrato',  'Nombres', 'Tipo de Correo',
+						   'Correo','Estado', 'Observaciones','Asesor','Supervisor',  
+                           'Fecha Cierre', 'Hora Cierre'));
+	// QUERY PARA CREAR EL REPORTE CORREOS
+	$traerDatos=$con->query("SELECT     correo.id_registro,
+                                        DATE_FORMAT(correo.fechaRegistro, '%d/%m/%Y') AS fecha_registro,
+                                        correo.horaRegistro,
+                                        correo.contrato,
+                                        correo.nombres,
+                                        correo.correo,
+                                        correo.observaciones,
+                                        t.nombre_tipificacion AS tipo_correo,
+                                        t1.nombre_tipificacion AS estado,
                                         u.username AS user_crea,
                                         u1.username AS user_cierre,
-                                        tCitas.fechaCierre,
-                                        tCitas.horaCierre
-                                        FROM ((((((( inf_investigar_citas tCitas
-                                        LEFT JOIN tipificaciones t 
-                                            ON tCitas.id_tipificacionEstado = t.id_tipificacion)
-                                        LEFT JOIN tipificaciones t1 
-                                            ON tCitas.id_tipificacionTipoSol = t1.id_tipificacion)
-                                        LEFT JOIN tipificaciones t2
-                                            ON tCitas.id_tipificacionTipoUsu = t2.id_tipificacion)
-                                        LEFT JOIN tipificaciones t3
-                                            ON tCitas.Id_tipificacioncentroMedico = t3.id_tipificacion)
-                                        LEFT JOIN tipificaciones t4
-                                            ON tCitas.Id_tipificacioncentroMedicoBack = t4.id_tipificacion)
-                                        LEFT JOIN tipificaciones t6
-                                            ON tCitas.id_tipificacionCentroCosto  = t6.id_tipificacion)                           
+                                        correo.fechaCierre,
+                                        correo.horaCierre
+                                        FROM ((((envioCorreo_registros correo
+                                        LEFT JOIN tipificaciones t
+                                            ON correo.id_tipoCorreo = t.id_tipificacion)
+                                        LEFT JOIN tipificaciones t1
+                                            ON correo.id_estado = t1.id_tipificacion)
                                         LEFT JOIN usuarios u
-                                            ON tCitas.id_userCrea = u.id_usuario)
+                                            ON correo.id_UserCrea = u.id_usuario)
                                         LEFT JOIN usuarios u1
-                                            ON tCitas.id_userCierre = u1.id_usuario
-                                        where tCitas.fecha_registro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
+                                            ON correo.id_userCierra = u1.id_usuario)
+                                        where fechaRegistro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
 
 	foreach ($traerDatos as $filaR) {
 				
+		$cadena = $filaR['observaciones'];
 
-    	$cadena = $filaR['ServicioSolicitado'];
-
-		$filaR['ServicioSolicitado'] = preg_replace("[\n|\r|\n\r]", "", $cadena);
-        $filaR['respuesta'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['respuesta']);
-        $filaR['gestion_llamada'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['gestion_llamada']);
+		$filaR['observaciones'] = preg_replace("[\n|\r|\n\r]", "", $cadena);
 	
 		
 		fputcsv($salida, array($filaR['id_registro'], 
-                                $filaR['estado'],
 								$filaR['fecha_registro'],
-								$filaR['hora_registro'],
-                                $filaR['documento'],
-								$filaR['contrato'],
-								$filaR['nombres_usuario'],
-                                $filaR['centro_medico'],
-                                $filaR['id_tipificacionServiciosCom'],
-                                $filaR['centro_costo'],
-                                $filaR['ServicioSolicitado'],
+								$filaR['horaRegistro'],
+                                $filaR['contrato'],
+								$filaR['nombres'],
+                                $filaR['tipo_correo'],
                                 $filaR['correo'],
-                                $filaR['tipo_solicitud'],
-                                $filaR['nomPersona_preguntar'],
-                                $filaR['telefono'],
-                                $filaR['celular'],
-                                $filaR['ciudad'],
-                                $filaR['user_crea'],
-                                $filaR['user_cierre'],
-                                $filaR['respuesta'],
-                                $filaR['gestion_llamada'],
-                                $filaR['tipo_usuario'],
-                                $filaR['tipificacionOrdResPed'],
-                                $filaR['FechaServicio'],
-                                $filaR['Nombre_Profesional'],
-                                $filaR['fechaCierre'],
-								$filaR['horaCierre']));
-    }
-							
-    }
-
-    if(isset($_POST['generar_reportes_reversiones']))
-    {
-    // NOMBRE DEL ARCHIVO Y CHARSET
-    
-	header('Content-Type:text/csv; charset=UTF-8');
-	header('Content-Disposition: attachment; filename="Reporte_Reversiones.csv"');
-
-	// SALIDA DEL ARCHIVO
-	$salida=fopen('php://output', 'b');
-	// ENCABEZADOS
-	fputcsv($salida, array('ID Registro','Motivo Reversion', 'Fecha Registro', 'Hora Registro', 'Documento', ' Contrato', 'Nombres Usuario',
-                            'Nap a Reversar','Auxiliar IPS', 'Observaciones', 'Error Linea Fuente','Reversion Efectiva', 'Observaciones BackOffcie', 
-                            'Usuario Crea', 'Backoffice','Fecha Cierre', 'Hora Cierre'));
-	// QUERY PARA CREAR EL REPORTE REVERSIONES
-	$traerDatos=$con->query("               SELECT tFono.id_registro,
-                                            DATE_FORMAT(tFono.fechaRegistro, '%d/%m/%Y') AS fecha_registro,
-                                            tFono.horaRegistro,
-                                            tFono.usuario,
-                                            tFono.documento,
-                                            tFono.contrato,
-                                            tFono.nap_aReversar,
-                                            tFono.auxiliar_ips,
-                                            t.nombre_tipificacion AS motivoReversion,
-                                            tFono.observaciones,
-                                            tFono.error_linea_fuente,
-                                            tFono.reversion_efectiva,
-                                            tFono.observacionesBack,
-                                            u.username AS user_crea,
-                                            u1.username AS user_cierre,
-                                            tFono.fechaCierre,
-                                            tFono.horaCierre
-                                            FROM (((reversiones_fono tFono
-                                            LEFT JOIN tipificaciones t 
-                                                ON tFono.id_motivoReversion = t.id_tipificacion)
-                                            LEFT JOIN usuarios u
-                                                ON tFono.id_UserCrea = u.id_usuario)
-                                            LEFT JOIN usuarios u1
-                                                ON tFono.id_UserCierre = u1.id_usuario)
-                                            where tFono.fechaRegistro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
-
-	foreach ($traerDatos as $filaR) {
-				
-
-    	$cadena = $filaR['observaciones'];
-
-		$filaR['observaciones'] = preg_replace("[\n|\r|\n\r]", "", $cadena);
-        $filaR['observacionesBack'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['observacionesBack']);
-
-		fputcsv($salida, array($filaR['id_registro'], 
-                                $filaR['motivoReversion'],
-								$filaR['fecha_registro'],
-								$filaR['horaRegistro'],
-                                $filaR['documento'],
-								$filaR['contrato'],
-								$filaR['usuario'],
-                                $filaR['nap_aReversar'],
-                                $filaR['auxiliar_ips'],
-                                $filaR['observaciones'],
-                                $filaR['error_linea_fuente'],
-                                $filaR['reversion_efectiva'],
-                                $filaR['observacionesBack'],
-                                $filaR['user_crea'],
-                                $filaR['user_cierre'],
-                                $filaR['fechaCierre'],
-								$filaR['horaCierre']));
-    }
-							
-    }
-  
-    if(isset($_POST['generar_reportes_negaciones']))
-    {
-    // NOMBRE DEL ARCHIVO Y CHARSET
-    
-	header('Content-Type:text/csv; charset=UTF-8');
-	header('Content-Disposition: attachment; filename="Reporte_Negaciones.csv"');
-
-	// SALIDA DEL ARCHIVO
-	$salida=fopen('php://output', 'b');
-	// ENCABEZADOS
-	fputcsv($salida, array('ID Registro','Fecha Registro', 'Hora Registro', 'Documento', ' Contrato', 'Nombres Usuario',
-                            'IPS','Area', 'Motivo Negacion', 'Observaciones', 'Usuario Crea'));
-	// QUERY PARA CREAR EL REPORTE NEGACIONES
-	$traerDatos=$con->query("              SELECT tFono.id_registro,
-                                            DATE_FORMAT(tFono.fechaRegistro, '%d/%m/%Y') AS fecha_registro,
-                                            tFono.horaRegistro,
-                                            tFono.nombre_usuario,
-                                            tFono.documento,
-                                            tFono.contrato,
-                                            tFono.ips,
-                                            t.nombre_tipificacion AS area,
-                                            t1.nombre_tipificacion AS motivo_negacion,
-                                            tFono.observaciones,
-                                            u.username AS user_crea
-                                            FROM (((negaciones_fono tFono
-                                            LEFT JOIN tipificaciones t 
-                                                ON tFono.id_area = t.id_tipificacion)
-                                            LEFT JOIN tipificaciones t1
-                                                ON tFono.id_motivoNegacion = t1.id_tipificacion)                                    
-                                            INNER JOIN usuarios u
-                                                ON tFono.id_userCrea = u.id_usuario)
-                                            where tFono.fechaRegistro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
-
-	foreach ($traerDatos as $filaR) {
-				
-
-    	$cadena = $filaR['observaciones'];
-
-		$filaR['observaciones'] = preg_replace("[\n|\r|\n\r]", "", $cadena);
-
-		fputcsv($salida, array($filaR['id_registro'], 
-								$filaR['fecha_registro'],
-								$filaR['horaRegistro'],
-                                $filaR['documento'],
-								$filaR['contrato'],
-								$filaR['nombre_usuario'],
-                                $filaR['ips'],
-                                $filaR['area'],
-                                $filaR['motivo_negacion'],
-                                $filaR['observaciones'],
-								$filaR['user_crea']));
-    }
-							
-    }
-
-
-    if(isset($_POST['generar_reportes_autorizaciones']))
-    {
-    // NOMBRE DEL ARCHIVO Y CHARSET
-    
-	header('Content-Type:text/csv; charset=UTF-8');
-	header('Content-Disposition: attachment; filename="Reporte_Autorizaciones.csv"');
-
-	// SALIDA DEL ARCHIVO
-	$salida=fopen('php://output', 'b');
-	// ENCABEZADOS
-	fputcsv($salida, array('ID Registro','Estado', 'Fecha Registro', 'Hora Registro', 'Documento', ' Contrato', 'Nombres Usuario',
-                            'Codigo IPS','Nombre Prestador', 'Correo', 'Telefono', 'Ciudad', 'Servicio Solicitado', 'Diagnostico',
-                            'Observaciones', 'Observaciones Backoffice', 'Consultor', 'Backoffice', 'Fecha Cierre', 'Hora Cierre'));
-	// QUERY PARA CREAR EL REPORTE AUTORIZACIONES
-	$traerDatos=$con->query("       SELECT  autorizaciones.id_registro,
-                                    t.nombre_tipificacion AS estado,
-                                    t1.nombre_tipificacion AS Servicio_solicitado,
-                                    DATE_FORMAT(autorizaciones.fechaRegistro, '%d/%m/%Y') AS fecha_registro,
-                                    autorizaciones.horaRegistro,
-                                    autorizaciones.documento,
-                                    autorizaciones.contrato,
-                                    autorizaciones.nombres_usuario,
-                                    autorizaciones.telefono,
-                                    autorizaciones.correo,
-                                    autorizaciones.codigo_ips,
-                                    autorizaciones.diagnostico,
-                                    autorizaciones.ciudad,
-                                    autorizaciones.nombre_prestador,
-                                    autorizaciones.observaciones,
-                                    autorizaciones.observacionesBack,
-                                    u.username AS user_crea,
-                                    u1.username AS user_cierre,
-                                    autorizaciones.fechaCierre,
-                                    autorizaciones.horaCierre
-                                    FROM ((((autorizaciones_fono autorizaciones
-                                    LEFT JOIN usuarios u
-                                        ON autorizaciones.id_userCrea = u.id_usuario)
-                                    LEFT JOIN usuarios u1
-                                        ON autorizaciones.id_userCierre = u1.id_usuario)
-                                    LEFT JOIN tipificaciones t 
-                                        ON autorizaciones.id_tipificacionEstado = t.id_tipificacion)
-                                    LEFT JOIN tipificaciones t1 
-                                        ON autorizaciones.id_servicioRequerido = t1.id_tipificacion)
-                                    where autorizaciones.fechaRegistro BETWEEN '$fecha1' AND '$fecha2' ORDER BY id_registro");
-
-	foreach ($traerDatos as $filaR) {
-				
-
-    	$cadena = $filaR['diagnostico'];
-
-		$filaR['diagnostico'] = preg_replace("[\n|\r|\n\r]", "", $cadena);
-        $filaR['observaciones'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['observaciones']);
-        $filaR['observacionesBack'] = preg_replace("[\n|\r|\n\r]", "",  $filaR['observacionesBack']);
-
-		fputcsv($salida, array($filaR['id_registro'], 
                                 $filaR['estado'],
-								$filaR['fecha_registro'],
-								$filaR['horaRegistro'],
-                                $filaR['documento'],
-								$filaR['contrato'],
-								$filaR['nombres_usuario'],
-                                $filaR['codigo_ips'],
-                                $filaR['nombre_prestador'],
-                                $filaR['correo'],
-                                $filaR['telefono'],
-                                $filaR['ciudad'],
-                                $filaR['Servicio_solicitado'],
-                                $filaR['diagnostico'],
                                 $filaR['observaciones'],
-                                $filaR['observacionesBack'],
                                 $filaR['user_crea'],
                                 $filaR['user_cierre'],
                                 $filaR['fechaCierre'],
 								$filaR['horaCierre']));
     }
-							
-    }
+}
+
+
 ?>

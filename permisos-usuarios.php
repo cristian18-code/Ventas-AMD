@@ -29,7 +29,7 @@
 												  FROM usuarios u
 												  INNER JOIN 
 												  roles r ON u.rol = r.id_rol 
-												  WHERE u.id_usuario =$idusuario");
+												  WHERE u.id_usuario = $idusuario");
 		$result = mysqli_num_rows($query);
 
 		if($result > 0){
@@ -53,17 +53,15 @@
 	if (!empty($_POST)) {
         // Declaracion de variables que se mostraran segun sus campos designados" //
        		$alert='';
-            $ConsultorFono = $_POST['ConsultorFono'];
-            $GestorFono = $_POST['GestorFono'];
-            $AgenteCitas = $_POST['AgenteCitas'];
-            $GestorCitas = $_POST['GestorCitas'];
+            $Agente = $_POST['Agente'];
+            $Supervisor = $_POST['Supervisor'];
 			$reportes = $_POST['reportes'];
-			$usuarios = $_POST['usuarios'];
+			$Administrador = $_POST['Administrador'];
     
 
             // Se ejecuta un Query que valide si el Usuario y la Cedula no se encuentran creados//
-            $query = mysqli_query($con,"UPDATE permisos SET ConsultorFono = '$ConsultorFono', GestorFono = '$GestorFono', AgenteCitas = '$AgenteCitas',
-			GestorCitas = '$GestorCitas', reportes = '$reportes', crud_usuarios = '$usuarios'
+            $query = mysqli_query($con,"UPDATE permisos SET Agente = '$Agente', Supervisor = '$Supervisor',
+			reportes = '$reportes', Administrador = '$Administrador'
 			WHERE id_usuario = '$idusuario' ");
 			
 		if($query){
@@ -105,7 +103,7 @@
 <!-- Scripts -->
     <script src="sistema/js/libs/jquery-3.5.1.min.js"></script>
 <!-- Scripts -->    
-    <title>Permisos Usuarios - Bitacora</title>
+    <title>Permisos Usuarios - Ventas AMD</title>
 </head>
 <body>
     <header>
@@ -138,7 +136,7 @@
 				<div class="alerta"> <?php echo isset($alert)? $alert :''; ?></div>
 			 <table id="usuario" class="table table-striped table-bordered">
 
-				<thead style=" background:rgb(0, 153, 255);">
+				<thead style="background-image: linear-gradient(180deg,rgb(63, 4, 102), rgb(84, 1, 151));">
 					<tr>
 						<th style=" color:white;"> SI</th>
 						<th style=" color:white;"> NO </th>
@@ -149,33 +147,17 @@
 				<tbody>
 			
 					<tr>
-			  			<td> <input class="form-check-input"  <?php if($dato['ConsultorFono'] == 1) { ?> checked="checked" <?php } ?>  type="radio" name="ConsultorFono" id="inlineRadio1" value="1"></td>
-						<td> <input class="form-check-input"  <?php if($dato['ConsultorFono'] == 0) { ?> checked="checked" <?php } ?>  type="radio" name="ConsultorFono" id="inlineRadio2" value="0"></td>
-						<td> Fonoplus Consultor </td>
+			  			<td> <input class="form-check-input"  <?php if($dato['Agente'] == 1) { ?> checked="checked" <?php } ?>  type="radio" name="Agente" id="inlineRadio1" value="1"></td>
+						<td> <input class="form-check-input"  <?php if($dato['Agente'] == 0) { ?> checked="checked" <?php } ?>  type="radio" name="Agente" id="inlineRadio2" value="0"></td>
+						<td> Asesor Ventas </td>
 					
 					</tr>
 
 			
 					<tr>
-						<td> <input class="form-check-input"  <?php if($dato['GestorFono'] == 1) { ?> checked="checked" <?php } ?>  type="radio" name="GestorFono" id="inlineRadio1" value="1"></td>
-						<td> <input class="form-check-input"  <?php if($dato['GestorFono'] == 0) { ?> checked="checked" <?php } ?>  type="radio" name="GestorFono" id="inlineRadio2" value="0"></td>
-						<td> Fonoplus Gestor</td>
-					
-					</tr>
-
-				
-					<tr>
-						<td> <input class="form-check-input"  <?php if($dato['AgenteCitas'] == 1) { ?> checked="checked" <?php } ?>  type="radio" name="AgenteCitas" id="inlineRadio1" value="1"></td>
-						<td> <input class="form-check-input"  <?php if($dato['AgenteCitas'] == 0) { ?> checked="checked" <?php } ?>  type="radio" name="AgenteCitas" id="inlineRadio2" value="0"></td>
-						  <td> Citas Agente</td>
-					
-					</tr>
-
-				
-					<tr>
-						<td> <input class="form-check-input"  <?php if($dato['GestorCitas'] == 1) { ?> checked="checked" <?php } ?>  type="radio" name="GestorCitas" id="inlineRadio1" value="1"></td>
-						<td> <input class="form-check-input"  <?php if($dato['GestorCitas'] == 0) { ?> checked="checked" <?php } ?>  type="radio" name="GestorCitas" id="inlineRadio2" value="0"></td>
-						<td> Citas Gestor</td>
+						<td> <input class="form-check-input"  <?php if($dato['Supervisor'] == 1) { ?> checked="checked" <?php } ?>  type="radio" name="Supervisor" id="inlineRadio1" value="1"></td>
+						<td> <input class="form-check-input"  <?php if($dato['Supervisor'] == 0) { ?> checked="checked" <?php } ?>  type="radio" name="Supervisor" id="inlineRadio2" value="0"></td>
+						<td> Supervisor / Backoffice</td>
 					
 					</tr>
 					
@@ -187,8 +169,8 @@
 					</tr>
 					
 					<tr>
-						<td> <input class="form-check-input"  <?php if($dato['crud_usuarios'] == 1) { ?> checked="checked" <?php } ?>  type="radio" name="usuarios" id="inlineRadio1" value="1"></td>
-						<td> <input class="form-check-input"  <?php if($dato['crud_usuarios'] == 0) { ?> checked="checked" <?php } ?>  type="radio" name="usuarios" id="inlineRadio2" value="0"></td>
+						<td> <input class="form-check-input"  <?php if($dato['Administrador'] == 1) { ?> checked="checked" <?php } ?>  type="radio" name="Administrador" id="inlineRadio1" value="1"></td>
+						<td> <input class="form-check-input"  <?php if($dato['Administrador'] == 0) { ?> checked="checked" <?php } ?>  type="radio" name="Administrador" id="inlineRadio2" value="0"></td>
 						<td> Crud Usuarios</td>
 					
 					</tr>
@@ -198,7 +180,7 @@
 						
 				</tbody>
 
-				<tfoot style="background:rgb(0, 153, 255);">
+				<tfoot style="background-image: linear-gradient(180deg,rgb(63, 4, 102), rgb(84, 1, 151));">
 				<tr>
 						<th style=" color:white;"> SI</th>
 						<th style=" color:white;"> NO </th>

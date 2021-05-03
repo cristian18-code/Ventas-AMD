@@ -102,14 +102,12 @@ a{
     width: 100%;
     background: rgb(0, 0, 0);
     height: 10%;
-    color: #fff;
     text-align: center;
 }
 .pusbar-fono-consultar1{
     width: 100%;
-    background: rgb(0, 0, 0);
-    height: 25%;
-    color: #fff;
+    background: rgb(0, 0, 0, 0.0);
+    height: 100vh;
     text-align: center;
 }
 #close{
@@ -126,6 +124,7 @@ a{
 }
 .respuestas{
     width: 100%;
+    height: 20vh;
     display: flex;
 }
 .respuestas h1{

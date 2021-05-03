@@ -1,7 +1,6 @@
 <?php 
     include('config/session.php');
     include('config/conexion.php');
-    include('sistema/logica/envio_correo.php');
 
     // valida que se envie un registro
     if (empty($_POST['registro'])) {
